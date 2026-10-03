@@ -1,0 +1,25 @@
+id: "gpu-optimization-v1"
+title: "PyTorch & GPU Inference Latency Optimization"
+version: "1.0.0"
+difficulty: "Hard"
+category: "Model Optimization & Serving"
+description: "Optimize a production PyTorch neural inference pipeline suffering from severe latency degradation under strict SLA."
+timeout_seconds: 40
+memory_limit: "2g"
+cpu_limit: 2.0
+
+paths:
+  workspace: "workspace"
+  public_tests: "tests/public"
+  hidden_tests: "tests/hidden"
+  grader: "grader/grader.py"
+  reference_solutions:
+    - "reference/solution-a"
+    - "reference/solution-b"
+
+scoring:
+  correctness: 40
+  throughput: 25
+  batch_invariance: 15
+  memory_efficiency: 15
+  integrity: 5

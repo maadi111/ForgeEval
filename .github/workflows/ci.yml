@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: forgeeval
+          POSTGRES_PASSWORD: forgeeval
+          POSTGRES_DB: forgeeval
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install --extra-index-url https://download.pytorch.org/whl/cpu -e ".[dev]"
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Generate benchmark data and artifacts
+        run: |
+          python scripts/generate_all_data.py
+
+      - name: Platform tests
+        env:
+          DATABASE_URL: postgresql+psycopg://forgeeval:forgeeval@localhost:5432/forgeeval
+        run: pytest -q tests
+
+      - name: B1 benchmarks (feature-leakage)
+        run: |
+          python scripts/run_benchmark.py --task feature-leakage-v1 --workspace benchmarks/feature-leakage/reference/solution-a
+          python scripts/run_benchmark.py --task feature-leakage-v1 --workspace benchmarks/feature-leakage/reference/solution-b
+          pytest benchmarks/feature-leakage/tests/hidden/test_negative_controls.py -v
+
+      - name: B3 benchmarks (model-serving)
+        run: |
+          python scripts/run_benchmark.py --task model-serving-v1 --workspace benchmarks/model-serving/reference/solution-a
+          python scripts/run_benchmark.py --task model-serving-v1 --workspace benchmarks/model-serving/reference/solution-b
+          pytest benchmarks/model-serving/tests/hidden/test_negative_controls.py -v
+
+      - name: B2 benchmarks (retrieval-drift)
+        run: |
+          python scripts/run_benchmark.py --task retrieval-drift-v1 --workspace benchmarks/retrieval-drift/reference/solution-a
+          python scripts/run_benchmark.py --task retrieval-drift-v1 --workspace benchmarks/retrieval-drift/reference/solution-b
+          pytest benchmarks/retrieval-drift/tests/hidden/test_negative_controls.py -v
+
+      - name: B5 benchmarks (adversarial-grading)
+        run: |
+          python scripts/run_benchmark.py --task adversarial-grading-v1 --workspace benchmarks/adversarial-grading/reference/solution-a
+          python scripts/run_benchmark.py --task adversarial-grading-v1 --workspace benchmarks/adversarial-grading/reference/solution-b
+          pytest benchmarks/adversarial-grading/tests/hidden/test_negative_controls.py -v
+
+      - name: B4 benchmarks (gpu-optimization)
+        run: |
+          python scripts/run_benchmark.py --task gpu-optimization-v1 --workspace benchmarks/gpu-optimization/reference/solution-a
+          python scripts/run_benchmark.py --task gpu-optimization-v1 --workspace benchmarks/gpu-optimization/reference/solution-b
+          pytest benchmarks/gpu-optimization/tests/hidden/test_negative_controls.py -v
+
+      - name: AI Agent evaluation
+        run: |
+          python -m agent.runner --task feature-leakage-v1
+          python -m agent.runner --task model-serving-v1
+

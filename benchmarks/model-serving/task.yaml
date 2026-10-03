@@ -1,0 +1,19 @@
+id: model-serving-v1
+title: Broken Model Serving & Micro-Batching
+version: 1.0.0
+difficulty: hard
+category: model-serving
+description: >
+  Debug and repair a high-throughput model inference service where production
+  requests intermittently receive incorrect predictions under batching and concurrent requests.
+limits:
+  timeout_seconds: 300
+  memory_mb: 4096
+  cpu: 2
+grading:
+  correctness: 40
+  batch_invariance: 20
+  schema_robustness: 15
+  concurrency_safety: 10
+  performance: 10
+  integrity: 5

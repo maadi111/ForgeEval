@@ -1,0 +1,26 @@
+id: "adversarial-grading-v1"
+title: "Adversarial Evaluation & Anti-Cheat Grading Harness"
+version: "1.0.0"
+difficulty: "Hard"
+category: "Model Evaluation & Security"
+description: "Harden an ML evaluation pipeline against adversarial shortcuts, memory tampering, memorization lookup tables, and uncalibrated metrics."
+timeout_seconds: 30
+memory_limit: "1g"
+cpu_limit: 2.0
+
+paths:
+  workspace: "workspace"
+  public_tests: "tests/public"
+  hidden_tests: "tests/hidden"
+  grader: "grader/grader.py"
+  reference_solutions:
+    - "reference/solution-a"
+    - "reference/solution-b"
+
+scoring:
+  correctness: 40
+  regression: 15
+  generalization: 15
+  adversarial: 15
+  performance: 10
+  integrity: 5

@@ -1,0 +1,19 @@
+id: retrieval-drift-v1
+title: Retrieval Drift & Embedding Alignment
+version: 1.0.0
+difficulty: medium
+category: information-retrieval
+description: >
+  Diagnose and fix a semantic retrieval system whose Recall@K collapses after
+  distribution drift, while maintaining fast search latency and rank fidelity.
+limits:
+  timeout_seconds: 300
+  memory_mb: 4096
+  cpu: 2
+grading:
+  recall_at_k: 40
+  drift_robustness: 20
+  precision_at_k: 15
+  normalization_integrity: 10
+  latency: 10
+  integrity: 5

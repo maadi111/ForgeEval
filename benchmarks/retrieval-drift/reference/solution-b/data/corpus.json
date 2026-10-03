@@ -1,0 +1,242 @@
+[
+  {
+    "id": "doc_cloud_01",
+    "domain": "cloud",
+    "title": "Virtual Machine Auto-scaling",
+    "text": "Configure horizontal auto-scaling for virtual machine instances based on CPU utilization metrics and memory thresholds."
+  },
+  {
+    "id": "doc_cloud_02",
+    "domain": "cloud",
+    "title": "Block Storage Snapshots",
+    "text": "Automate snapshot backups of persistent disk volumes with lifecycle policies and cross-region replication for disaster recovery."
+  },
+  {
+    "id": "doc_cloud_03",
+    "domain": "cloud",
+    "title": "VPC Network Peering",
+    "text": "Connect multiple private cloud networks with internal IP routing, subnets, and security group firewall rules."
+  },
+  {
+    "id": "doc_cloud_04",
+    "domain": "cloud",
+    "title": "Object Storage Access Control",
+    "text": "Configure fine-grained IAM roles, uniform bucket-level access, and public read prevention on cloud storage buckets."
+  },
+  {
+    "id": "doc_cloud_05",
+    "domain": "cloud",
+    "title": "Cloud Load Balancing Architecture",
+    "text": "Deploy global HTTP and TCP load balancers with health checks, SSL termination, and CDN edge caching."
+  },
+  {
+    "id": "doc_mlops_01",
+    "domain": "mlops",
+    "title": "Kubernetes GPU Operator Deployment",
+    "text": "Install nvidia gpu-operator helm chart on kubernetes clusters to enable automated cuda driver injection and dynamic gpu resource scheduling for inference pods."
+  },
+  {
+    "id": "doc_mlops_02",
+    "domain": "mlops",
+    "title": "Model Registry Versioning and Lineage",
+    "text": "Track machine learning artifacts, model lineage, hyperparameter metadata, and production staging transitions using an enterprise model-registry."
+  },
+  {
+    "id": "doc_mlops_03",
+    "domain": "mlops",
+    "title": "vLLM Inference Engine Optimization",
+    "text": "Deploy high-throughput vllm-engine with paged-attention, tensor parallelism, and continuous batching on multi-gpu nodes."
+  },
+  {
+    "id": "doc_mlops_04",
+    "domain": "mlops",
+    "title": "Feature Store Online Serving",
+    "text": "Low-latency key-value retrieval of point-in-time features using redis and feast feature-store for real-time recommendation scoring."
+  },
+  {
+    "id": "doc_mlops_05",
+    "domain": "mlops",
+    "title": "Horizontal Pod Autoscaler with Prometheus Metrics",
+    "text": "Configure hpa-autoscaling for model serving deployments based on custom prometheus inference request latency and queue depth metrics."
+  },
+  {
+    "id": "doc_bg_01",
+    "domain": "general",
+    "title": "General IT Policy 1",
+    "text": "Internal company standard operating procedure 1 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_02",
+    "domain": "general",
+    "title": "General IT Policy 2",
+    "text": "Internal company standard operating procedure 2 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_03",
+    "domain": "general",
+    "title": "General IT Policy 3",
+    "text": "Internal company standard operating procedure 3 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_04",
+    "domain": "general",
+    "title": "General IT Policy 4",
+    "text": "Internal company standard operating procedure 4 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_05",
+    "domain": "general",
+    "title": "General IT Policy 5",
+    "text": "Internal company standard operating procedure 5 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_06",
+    "domain": "general",
+    "title": "General IT Policy 6",
+    "text": "Internal company standard operating procedure 6 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_07",
+    "domain": "general",
+    "title": "General IT Policy 7",
+    "text": "Internal company standard operating procedure 7 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_08",
+    "domain": "general",
+    "title": "General IT Policy 8",
+    "text": "Internal company standard operating procedure 8 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_09",
+    "domain": "general",
+    "title": "General IT Policy 9",
+    "text": "Internal company standard operating procedure 9 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_10",
+    "domain": "general",
+    "title": "General IT Policy 10",
+    "text": "Internal company standard operating procedure 10 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_11",
+    "domain": "general",
+    "title": "General IT Policy 11",
+    "text": "Internal company standard operating procedure 11 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_12",
+    "domain": "general",
+    "title": "General IT Policy 12",
+    "text": "Internal company standard operating procedure 12 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_13",
+    "domain": "general",
+    "title": "General IT Policy 13",
+    "text": "Internal company standard operating procedure 13 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_14",
+    "domain": "general",
+    "title": "General IT Policy 14",
+    "text": "Internal company standard operating procedure 14 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_15",
+    "domain": "general",
+    "title": "General IT Policy 15",
+    "text": "Internal company standard operating procedure 15 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_16",
+    "domain": "general",
+    "title": "General IT Policy 16",
+    "text": "Internal company standard operating procedure 16 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_17",
+    "domain": "general",
+    "title": "General IT Policy 17",
+    "text": "Internal company standard operating procedure 17 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_18",
+    "domain": "general",
+    "title": "General IT Policy 18",
+    "text": "Internal company standard operating procedure 18 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_19",
+    "domain": "general",
+    "title": "General IT Policy 19",
+    "text": "Internal company standard operating procedure 19 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_20",
+    "domain": "general",
+    "title": "General IT Policy 20",
+    "text": "Internal company standard operating procedure 20 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_21",
+    "domain": "general",
+    "title": "General IT Policy 21",
+    "text": "Internal company standard operating procedure 21 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_22",
+    "domain": "general",
+    "title": "General IT Policy 22",
+    "text": "Internal company standard operating procedure 22 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_23",
+    "domain": "general",
+    "title": "General IT Policy 23",
+    "text": "Internal company standard operating procedure 23 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_24",
+    "domain": "general",
+    "title": "General IT Policy 24",
+    "text": "Internal company standard operating procedure 24 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_25",
+    "domain": "general",
+    "title": "General IT Policy 25",
+    "text": "Internal company standard operating procedure 25 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_26",
+    "domain": "general",
+    "title": "General IT Policy 26",
+    "text": "Internal company standard operating procedure 26 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_27",
+    "domain": "general",
+    "title": "General IT Policy 27",
+    "text": "Internal company standard operating procedure 27 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_28",
+    "domain": "general",
+    "title": "General IT Policy 28",
+    "text": "Internal company standard operating procedure 28 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_29",
+    "domain": "general",
+    "title": "General IT Policy 29",
+    "text": "Internal company standard operating procedure 29 regarding hardware maintenance, access provisioning, and system logging."
+  },
+  {
+    "id": "doc_bg_30",
+    "domain": "general",
+    "title": "General IT Policy 30",
+    "text": "Internal company standard operating procedure 30 regarding hardware maintenance, access provisioning, and system logging."
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "historical": [
+    {
+      "query": "how to configure auto-scaling for virtual machine CPU",
+      "relevant_ids": [
+        "doc_cloud_01"
+      ]
+    },
+    {
+      "query": "persistent disk snapshot backup policies",
+      "relevant_ids": [
+        "doc_cloud_02"
+      ]
+    },
+    {
+      "query": "private VPC peering subnets firewall",
+      "relevant_ids": [
+        "doc_cloud_03"
+      ]
+    },
+    {
+      "query": "cloud storage bucket IAM permissions and access",
+      "relevant_ids": [
+        "doc_cloud_04"
+      ]
+    },
+    {
+      "query": "global HTTP load balancer with SSL health checks",
+      "relevant_ids": [
+        "doc_cloud_05"
+      ]
+    }
+  ],
+  "drifted": [
+    {
+      "query": "How do I configure the cluster for cuda driver using nvidia gpu-operator?",
+      "relevant_ids": [
+        "doc_mlops_01"
+      ]
+    },
+    {
+      "query": "Where can we track lineage versions and model metadata in the model-registry?",
+      "relevant_ids": [
+        "doc_mlops_02"
+      ]
+    },
+    {
+      "query": "What setup enables continuous batching on multi-gpu nodes in vllm-engine?",
+      "relevant_ids": [
+        "doc_mlops_03"
+      ]
+    },
+    {
+      "query": "How to perform real-time recommendation scoring with redis feature-store?",
+      "relevant_ids": [
+        "doc_mlops_04"
+      ]
+    },
+    {
+      "query": "How do we scale model serving pods using prometheus queue depth in hpa-autoscaling?",
+      "relevant_ids": [
+        "doc_mlops_05"
+      ]
+    }
+  ]
+}

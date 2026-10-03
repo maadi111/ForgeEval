@@ -1,0 +1,19 @@
+id: feature-leakage-v1
+title: Point-in-Time Feature Leakage
+version: 1.0.0
+difficulty: medium
+category: production-ml
+description: >
+  Repair a forecasting feature pipeline whose validation metrics are inflated
+  because one feature uses information unavailable at prediction time.
+limits:
+  timeout_seconds: 300
+  memory_mb: 4096
+  cpu: 2
+grading:
+  correctness: 40
+  regression: 15
+  generalization: 15
+  adversarial: 15
+  performance: 10
+  integrity: 5
