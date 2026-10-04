@@ -44,3 +44,5 @@ desktop.ini
 artifacts/
 node_modules/
 *.log
+
+.vercel

@@ -1,6 +1,7 @@
 # ForgeEval — Production ML Benchmark & Adversarial Evaluation Platform
 
 [![CI](https://github.com/maadi111/ForgeEval/actions/workflows/ci.yml/badge.svg)](https://github.com/maadi111/ForgeEval/actions)
+[![Live Demo](https://img.shields.io/badge/live_demo-forgeeval.vercel.app-success.svg)](https://forgeeval.vercel.app)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
 [![PyTorch 2.6](https://img.shields.io/badge/PyTorch-2.6-ee4c2c.svg)](https://pytorch.org/)
 [![Docker Sandbox](https://img.shields.io/badge/sandbox-docker_isolated-blueviolet.svg)](https://www.docker.com/)
@@ -11,6 +12,7 @@
 **ForgeEval** is a production-grade benchmark and adversarial evaluation harness for machine learning systems and autonomous AI coding agents. Unlike conventional software benchmarks that score deterministic syntax, passing test strings, or reference patch matching, ForgeEval evaluates whether an engineer or AI agent can diagnose, debug, and resolve **latent ML failure modes under adversarial stress**.
 
 > **Key Capabilities at a Glance:**
+> - 🌐 **Live Interactive Platform**: Explore live benchmark runs and telemetry at **[forgeeval.vercel.app](https://forgeeval.vercel.app)**.
 > - 🎯 **5 Production ML Failure Benchmarks**: Point-in-time feature leakage, semantic vector retrieval drift, micro-batching non-determinism, GPU latency SLA violations, and grader anti-cheat tampering.
 > - 🛡️ **Dual-Tier Invariant Grading**: Solutions must survive temporal future-perturbation probes, dynamic epsilon jitter ($\epsilon \sim \mathcal{N}(0, 10^{-4})$), and batch permutation invariance tests.
 > - 🔒 **Hermetic Docker Sandbox**: Enforces non-root execution (`uid=10001`), read-only root filesystems, `--network none` airgapping, and strict cgroups v2 hardware quotas.
@@ -20,8 +22,10 @@
 
 ## Evaluation Overview Dashboard
 
+[![Open Live Platform](https://img.shields.io/badge/Open_Live_Platform-https%3A%2F%2Fforgeeval.vercel.app-7928CA?style=for-the-badge&logo=vercel&logoColor=white)](https://forgeeval.vercel.app)
+
 ![ForgeEval Evaluation Overview](images/Capture.PNG)
-*The ForgeEval Live Operational Dashboard displaying global pass rates (84.2%), latency SLA compliance (98.4%), invariant integrity (100%), negative control rejection (100%), and real-time execution telemetry.*
+*The ForgeEval Live Operational Dashboard displaying global pass rates (84.2%), latency SLA compliance (98.4%), invariant integrity (100%), negative control rejection (100%), and real-time execution telemetry. Accessible live at [forgeeval.vercel.app](https://forgeeval.vercel.app).*
 
 ---
 
@@ -61,44 +65,9 @@ Machine Learning Reality:   Feature Leakage    ───►  Zero Exceptions    
 
 ## Platform Architecture
 
-```mermaid
-flowchart TD
-    subgraph Client ["Client & Agent Interface"]
-        A[Autonomous AI Agent / Engineer] -->|POST /submissions| B[FastAPI Gateway]
-        CLI[ForgeEval CLI Runner] -->|Local / CI Evaluation| B
-    end
+![ForgeEval Platform Architecture](images/architecture.png)
+*High-level system topology: Client & Agent Interface, Isolated Docker Sandbox (Non-Root), Dual-Tier Adversarial Grader, and Evaluation & Telemetry Ledger.*
 
-    subgraph Sandbox ["Isolated Docker Sandbox (Non-Root)"]
-        B --> C[Sandbox Isolation Controller]
-        C -->|Spawn Container| D[Runner Container]
-        D -->|Mounted Read-Only| E[Task Environment & Source Code]
-        D -->|Ephemeral tmpfs| F[Scratch Execution Space]
-        D -.->|Enforce Isolation| G[cgroups: 2 CPU / 4GB RAM / No Network]
-    end
-
-    subgraph Grader ["Dual-Tier Adversarial Grader"]
-        D --> H[Tier 1: Public Sanity Checks]
-        H -->|Basic Contracts| I[Tier 2: Hidden Behavioral Invariant Suite]
-        
-        I --> J1[Temporal Perturbation Probes]
-        I --> J2[OOD Distribution Drift Probes]
-        I --> J3[Batch Permutation Invariance]
-        I --> J4[PyTorch Latency SLA Profiler]
-        I --> J5[Cryptographic SHA-256 Fixture Guard]
-    end
-
-    subgraph Scoring ["Evaluation & Telemetry Ledger"]
-        J1 & J2 & J3 & J4 & J5 --> K[Behavioral Scoring Engine]
-        K --> L[6-Dimension Score Matrix: 100 pts]
-        L --> M[Cryptographic Run Manifest]
-        M --> N[Interactive Web Dashboard]
-    end
-
-    style Client fill:#1e1e2e,stroke:#89b4fa,color:#cdd6f4
-    style Sandbox fill:#181825,stroke:#f38ba8,color:#cdd6f4
-    style Grader fill:#11111b,stroke:#a6e3a1,color:#cdd6f4
-    style Scoring fill:#1e1e2e,stroke:#fab387,color:#cdd6f4
-```
 
 ---
 
@@ -306,11 +275,13 @@ python scripts/run_benchmark.py --task adversarial-grading-v1 --workspace benchm
 python scripts/run_benchmark.py --task gpu-optimization-v1 --workspace benchmarks/gpu-optimization/reference/solution-a
 ```
 
-### 5. Launch FastAPI Service & Interactive Dashboard
+### 5. Interactive Web Dashboard & Local Backend
+- **Live Hosted Platform**: Access the production platform instantly at **[https://forgeeval.vercel.app](https://forgeeval.vercel.app)**.
+- **Local Service & Evaluation API**: To run the backend and local dashboard:
 ```bash
 uvicorn api.main:app --host 0.0.0.0 --port 8000
 ```
-Open **[http://localhost:8000/dashboard/](http://localhost:8000/dashboard/)** in your browser to view the interactive dashboard, explore benchmark tasks, launch runs, and inspect live evaluation telemetry.
+Open **[http://localhost:8000/dashboard/](http://localhost:8000/dashboard/)** in your browser to view the local instance.
 
 ---
 
