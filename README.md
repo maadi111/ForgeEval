@@ -4,18 +4,24 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
 [![PyTorch 2.6](https://img.shields.io/badge/PyTorch-2.6-ee4c2c.svg)](https://pytorch.org/)
 [![Docker Sandbox](https://img.shields.io/badge/sandbox-docker_isolated-blueviolet.svg)](https://www.docker.com/)
-[![Negative Controls](https://img.shields.io/badge/negative_controls-100%25_rejected-success.svg)](#intentionally-rejected-shortcut-example)
+[![Negative Controls](https://img.shields.io/badge/negative_controls-100%25_rejected-success.svg)](#intentionally-rejected-shortcut)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Code Style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-**ForgeEval** is a production-grade benchmark and adversarial evaluation harness for machine learning systems and autonomous AI coding agents. Unlike conventional benchmarks that score deterministic syntax, passing test strings, or reference patch matching, ForgeEval evaluates whether an engineer or AI agent can diagnose, debug, and resolve **latent ML failure modes under adversarial stress**.
+**ForgeEval** is a production-grade benchmark and adversarial evaluation harness for machine learning systems and autonomous AI coding agents. Unlike conventional software benchmarks that score deterministic syntax, passing test strings, or reference patch matching, ForgeEval evaluates whether an engineer or AI agent can diagnose, debug, and resolve **latent ML failure modes under adversarial stress**.
+
+> **Key Capabilities at a Glance:**
+> - 🎯 **5 Production ML Failure Benchmarks**: Point-in-time feature leakage, semantic vector retrieval drift, micro-batching non-determinism, GPU latency SLA violations, and grader anti-cheat tampering.
+> - 🛡️ **Dual-Tier Invariant Grading**: Solutions must survive temporal future-perturbation probes, dynamic epsilon jitter ($\epsilon \sim \mathcal{N}(0, 10^{-4})$), and batch permutation invariance tests.
+> - 🔒 **Hermetic Docker Sandbox**: Enforces non-root execution (`uid=10001`), read-only root filesystems, `--network none` airgapping, and strict cgroups v2 hardware quotas.
+> - ⚡ **Full-Stack SaaS Evaluation Dashboard**: Single-page operational control center with run timeline inspector, live code diffs, execution logs, and neutral agent rankings.
 
 ---
 
 ## Evaluation Overview Dashboard
 
 ![ForgeEval Evaluation Overview](images/Capture.PNG)
-*The ForgeEval Live Operational Dashboard displaying global pass rates, failure mode distributions, platform telemetry, and recent benchmark runs.*
+*The ForgeEval Live Operational Dashboard displaying global pass rates (84.2%), latency SLA compliance (98.4%), invariant integrity (100%), negative control rejection (100%), and real-time execution telemetry.*
 
 ---
 
@@ -23,13 +29,13 @@
 
 Every benchmark in ForgeEval features a buggy baseline exhibiting realistic production degradation, alongside two independent reference solutions (`solution-a` and `solution-b`). Naive patches that game standard unit tests are strictly rejected by invariant and adversarial gates.
 
-| ID | Benchmark Task | Latent Bug / Production Symptom | Buggy Baseline | Solution A | Solution B | Adversarial / Invariant Gate Tripped by Buggy Code |
-|:---|:---|:---|:---:|:---:|:---:|:---|
-| **B1** | **Point-in-Time Feature Leakage**<br>`feature-leakage-v1` | Rolling aggregations incorporate target at $t+0$ without `.shift(1)`; $R^2$ collapses from 0.98 on historical data to 0.12 in live traffic. | **85.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Future Row Perturbation Gate**: Mutating record at $t+1$ altered feature output at $t$, proving lookahead bias. |
-| **B2** | **Retrieval Drift & Embedding Alignment**<br>`retrieval-drift-v1` | Query string truncated at 4 tokens destroying acronyms; unnormalized dot product used over cosine distance; Recall@5 collapses to 40%. | **80.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **OOD Semantic Drift Gate**: Technical vocabulary queries collapsed; L2 embedding normalization invariance failed. |
-| **B3** | **Broken Model Serving & Micro-Batching**<br>`model-serving-v1` | Dict key iteration order nondeterminism shuffles feature columns; batch length sorting lacks inverse permutation restoration. | **65.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Batch Invariance Gate**: $f([A, B]) \neq [f(A), f(B)]$; request predictions varied based on co-occurring batch neighbors. |
-| **B4** | **GPU & PyTorch Latency Optimization**<br>`gpu-optimization-v1` | Sequential Python `for`-loop inference with autograd graph tracking and training mode active; p95 latency is 0.52s (violates 0.08s SLA). | **60.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Latency SLA Gate**: Breached 0.08s SLA on 256-item burst; `model.eval()` and `torch.inference_mode()` missing. |
-| **B5** | **Adversarial Evaluation & Anti-Cheat Harness**<br>`adversarial-grading-v1` | Naive accuracy metric exploited by constant majority predictor; grader fixtures vulnerable to in-place memory tampering. | **60.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Cryptographic Tamper & Entropy Gate**: Constant output shortcut caught by balanced entropy check; fixture SHA-256 mismatch flagged. |
+| ID | Benchmark Task | Latent Bug / Production Symptom | Buggy Baseline | Solution A | Solution B | Adversarial / Invariant Gate Tripped by Buggy Code | SLA Budget |
+|:---|:---|:---|:---:|:---:|:---:|:---|:---:|
+| **B1** | **Point-in-Time Feature Leakage**<br>`feature-leakage-v1` | Rolling aggregations incorporate target at $t+0$ without `.shift(1)`; $R^2$ collapses from 0.98 on historical data to 0.12 in live traffic. | **85.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Future Row Perturbation Gate**: Mutating record at $t+1$ altered feature output at $t$, proving lookahead bias. | < 2.0s |
+| **B2** | **Retrieval Drift & Embedding Alignment**<br>`retrieval-drift-v1` | Query string truncated at 4 tokens destroying acronyms; unnormalized dot product used over cosine distance; Recall@5 collapses to 40%. | **80.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **OOD Semantic Drift Gate**: Technical vocabulary queries collapsed; L2 embedding normalization invariance failed. | < 1.5s |
+| **B3** | **Broken Model Serving & Micro-Batching**<br>`model-serving-v1` | Dict key iteration order nondeterminism shuffles feature columns; batch length sorting lacks inverse permutation restoration. | **65.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Batch Invariance Gate**: $f([A, B]) \neq [f(A), f(B)]$; request predictions varied based on co-occurring batch neighbors. | < 0.5s |
+| **B4** | **GPU & PyTorch Latency Optimization**<br>`gpu-optimization-v1` | Sequential Python `for`-loop inference with autograd graph tracking and training mode active; p95 latency is 0.52s (violates 0.08s SLA). | **60.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Latency SLA Gate**: Breached 0.08s SLA on 256-item burst; `model.eval()` and `torch.inference_mode()` missing. | < 0.08s |
+| **B5** | **Adversarial Evaluation & Anti-Cheat Harness**<br>`adversarial-grading-v1` | Naive accuracy metric exploited by constant majority predictor; grader fixtures vulnerable to in-place memory tampering. | **60.0** / 100<br>*(FAILED)* | **100.0** / 100<br>*(PASSED)* | **100.0** / 100<br>*(PASSED)* | **Cryptographic Tamper & Entropy Gate**: Constant output shortcut caught by balanced entropy check; fixture SHA-256 mismatch flagged. | < 1.0s |
 
 ---
 
@@ -38,6 +44,11 @@ Every benchmark in ForgeEval features a buggy baseline exhibiting realistic prod
 Traditional software engineering benchmarks (e.g., HumanEval, SWE-bench) evaluate deterministic logic: code either throws an exception, fails an assertion, or passes.
 
 **Machine learning engineering fails silently.**
+
+```
+Traditional Benchmarks:     Code Syntax Error  ───►  Unhandled Exception  ───►  0.0 Score (Caught)
+Machine Learning Reality:   Feature Leakage    ───►  Zero Exceptions      ───►  0.99 Train R² (Silent Catastrophe in Prod)
+```
 
 1. **Silent Catastrophes**: A feature pipeline that leaks future values compiles cleanly, runs with zero exceptions, and achieves a deceptive 0.99 $R^2$ during training — before losing capital in production.
 2. **The Test-Gaming Trap**: LLM coding agents have learned to game naive grading suites by hardcoding lookup tables, returning constant majority classes, or monkey-patching test fixtures in memory.
@@ -93,20 +104,37 @@ flowchart TD
 
 ## Platform Dashboard Tour
 
+ForgeEval includes a production-grade single-page SaaS dashboard for monitoring evaluation runs, inspecting agent trajectories, reviewing code diffs, and auditing grader health.
+
 | Benchmark Catalog & Deep Inspection | Detailed Run Execution Trace |
 |:---:|:---:|
 | ![Benchmark Catalog](images/1.PNG) | ![Run Execution Timeline](images/11.PNG) |
 | *Filter and inspect benchmark tasks by difficulty, latency budgets, and invariant types.* | *Step-by-step invariant execution trace and 6-dimension score breakdown.* |
+
+| Launch Evaluation Run Modal | Code Diff & Terminal Execution Logs |
+|:---:|:---:|
+| ![Launch Evaluation Modal](images/10.PNG) | ![Code Diff & Logs](images/12.PNG) |
+| *Configure sandboxed execution parameters, timeout limits, and target models.* | *Interactive code diff viewer alongside streaming container execution logs.* |
 
 | AI Agent Measurement Leaderboard | Grader Health & Anti-Cheat Validation |
 |:---:|:---:|
 | ![Agent Leaderboard](images/3.PNG) | ![Grader Health](images/4.PNG) |
 | *Neutral evaluation ranking across frontier models and heuristic agent loops.* | *Proof of zero false-positives and 100% rejection rate against adversarial negative controls.* |
 
+| Global Evaluation Runs Ledger | Platform Analytics & Calibration |
+|:---:|:---:|
+| ![Global Runs Ledger](images/2.PNG) | ![Platform Analytics](images/7.PNG) |
+| *Comprehensive audit ledger tracking run IDs, agent models, isolation, and verdicts.* | *Calibration curves comparing agent solve times against human baseline distributions.* |
+
 | Cryptographic Artifact Registry | Sandboxed Execution Environments |
 |:---:|:---:|
 | ![Artifact Registry](images/5.PNG) | ![Execution Environments](images/6.PNG) |
 | *Cryptographic SHA-256 hashes locking datasets, models, and evaluation fixtures.* | *Docker isolation configuration with non-root enforcement and hardware cgroups.* |
+
+| Infrastructure Telemetry & Node Health | Platform Settings & Quotas |
+|:---:|:---:|
+| ![Infrastructure Telemetry](images/8.PNG) | ![Platform Settings](images/9.PNG) |
+| *Real-time cluster telemetry monitoring API gateway, worker pools, and task queues.* | *Fine-grained rate limits, active API keys, and sandbox timeout configurations.* |
 
 ---
 
@@ -161,7 +189,7 @@ The following trace demonstrates `forge-heuristic-agent-v1` diagnosing and resol
 
 ## Intentionally Rejected Shortcut
 
-ForgeEval features an automated suite of negative controls that formally prove resistance to test exploits. Below is an evaluation report of an agent attempting a **memorization lookup shortcut** on Benchmark B5:
+ForgeEval features an automated suite of negative controls that formally prove resistance to test exploits. Below is an evaluation report of an agent attempting a **memorization lookup shortcut / constant predictor** on Benchmark B5:
 
 ```text
 ============================== FORGEEVAL ADVERSARIAL GRADER ==============================
@@ -201,10 +229,35 @@ Every submission is evaluated within a hermetic sandbox preventing side effects,
 - **Ephemeral Scratch Mount**: Memory-backed scratch space with `--tmpfs /tmp:rw,noexec,nosuid,size=512m`.
 - **Hardware Quotas (cgroups v2)**:
   - CPU: Capped at 2.0 cores (`--cpus 2.0`).
-  - Memory: Hard limit of 4GB (`--memory 4g`).
+  - Memory: Hard limit of 4GB (`--memory 4g`). Breaching triggers container exit code `137` (OOMKilled).
   - Process Limit: 128 PIDs max (`--pids-limit 128`).
 - **Network Lockdown**: All dynamic grading passes execute with `--network none`.
 - **Seccomp Profile**: Drops `ptrace`, `sys_chroot`, and privilege escalation capabilities.
+
+### Sandbox Isolation Audit Verification Log
+
+```bash
+$ docker run --rm --network none --read-only --user 10001:10001 \
+    --tmpfs /tmp:rw,noexec,nosuid,size=512m \
+    --memory 4g --cpus 2.0 forgeeval/sandbox:latest python3 -c '
+import os, socket, sys
+print(f"UID: {os.getuid()}, GID: {os.getgid()}")
+try:
+    socket.create_connection(("8.8.8.8", 53), timeout=1)
+    print("NETWORK: FAILED (Leak detected!)")
+except OSError:
+    print("NETWORK: PASSED (Airgapped)")
+try:
+    open("/root/test.txt", "w").write("leak")
+    print("FILESYSTEM: FAILED (Write allowed!)")
+except OSError:
+    print("FILESYSTEM: PASSED (Read-only rootfs)")
+'
+# Output:
+# UID: 10001, GID: 10001
+# NETWORK: PASSED (Airgapped)
+# FILESYSTEM: PASSED (Read-only rootfs)
+```
 
 ---
 
